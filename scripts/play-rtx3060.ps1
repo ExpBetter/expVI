@@ -80,9 +80,10 @@ if (Test-Path $victory) {
         }
     }
     if (-not $SkipWarm) {
-        Write-Host '[2/2] Pre-compiling recorded pipelines for NVIDIA (--jobs 4 for 16 GB RAM)...'
+        $warmArgs = if ($Mode -eq '6') { @('warm', '--jobs', '8') } else { @('warm', '--used', '--jobs', '8') }
+        Write-Host "[2/2] Pre-compiling NVIDIA pipelines ($($warmArgs -join ' '))..."
         Push-Location $repo
-        try { & $victory warm --jobs 4 } finally { Pop-Location }
+        try { & $victory @warmArgs } finally { Pop-Location }
     }
     if ($Mode -eq '6') {
         Write-Host 'Shader translation and pipeline warm-up complete.' -ForegroundColor Green
