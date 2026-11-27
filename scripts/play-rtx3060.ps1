@@ -94,16 +94,15 @@ if (Test-Path $victory) {
 $extra = @{
     VICTORY_DISPLAY_MODE         = '1920x1080'
     VICTORY_WINDOW_MAX           = '1920x1080'
-    # Clean NVIDIA graphics: no f16 banding, big dynamic heap, single recording thread
+    # Clean NVIDIA graphics: no f16 banding, big dynamic heap (keep foxhound's VICTORY_THIN=1 for multi-threaded speed)
     VICTORY_F16_NEAREST          = '1'
     VICTORY_DYNAMIC_SLOTS        = '524288'
-    VICTORY_THIN                 = '0'
     VICTORY_COMPOSE              = '1'
     # Keep 15.8 GB system RAM + pagefile from exhausting during shader compilation (nvwgf2umx.dll OOM):
     VICTORY_CARD_BUFFERS_MIN_KB  = '1024'
     VICTORY_CARD_BUFFERS_MB      = '1536'
     VICTORY_LEVELS_ON_DEMAND     = '1'
-    VICTORY_TEXTURE_ROOM_PERCENT = '80'
+    VICTORY_TEXTURE_ROOM_PERCENT = '88'
     VICTORY_PANEL                = '1'
 }
 if ($FrameGen) {
