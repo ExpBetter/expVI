@@ -94,20 +94,21 @@ if (Test-Path $victory) {
 $extra = @{
     VICTORY_DISPLAY_MODE         = '1920x1080'
     VICTORY_WINDOW_MAX           = '1920x1080'
-    # Clean NVIDIA graphics: guaranteed indoor ambient bounce with depth crease shading + wait for new pipelines
-    VICTORY_AMBIENT              = 'constant:0.12'
+    # Clean NVIDIA graphics: brighter indoor bounce light, no white-eye specular artifact, sharp textures
+    VICTORY_AMBIENT              = 'constant:0.25'
     VICTORY_AMBIENT_SHADE        = '0.7,1.5'
     VICTORY_AMBIENT_ONCE         = '1'
     VICTORY_AMBIENT_AIR          = '3'
+    VICTORY_AMBIENT_SPECULAR     = '0'
     VICTORY_F16_NEAREST          = '1'
     VICTORY_DYNAMIC_SLOTS        = '524288'
     VICTORY_PIPELINE_WAIT_MS     = '5000'
     VICTORY_SKIP_PIPELINES       = 'none'
     VICTORY_COMPOSE              = '1'
-    # Keep 15.8 GB system RAM + pagefile from exhausting & prevent 6+ GB PCIe SHARED spill:
+    # Keep 15.8 GB system RAM + pagefile safe while keeping sharp texture mips:
     VICTORY_CARD_BUFFERS_MIN_KB  = '1024'
     VICTORY_CARD_BUFFERS_MB      = '1536'
-    VICTORY_LEVELS_ON_DEMAND     = '1'
+    VICTORY_LEVELS_ON_DEMAND     = '0'
     VICTORY_TEXTURE_ROOM_PERCENT = '82'
     VICTORY_TEXTURE_STAGE_MS     = '8'
     VICTORY_PANEL                = '1'
