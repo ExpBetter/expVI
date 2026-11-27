@@ -39,7 +39,7 @@ $hasOverride = $Mode -or $PSBoundParameters.ContainsKey('Dlss') -or $PSBoundPara
 if (-not $hasOverride) {
     Write-Host ''
     Write-Host '================ expVI Launcher (RTX 3060 / NVIDIA) ================' -ForegroundColor Cyan
-    Write-Host '  [1] RTX 3060 Recommended   (Series S | DLSS Quality | No FrameGen | 1080p)'
+    Write-Host '  [1] RTX 3060 Recommended   (Series S | DLSS Balanced | No FrameGen | 1080p)'
     Write-Host '  [2] Max FPS / Performance  (Series S | DLSS Perf    | No FrameGen | 1080p)'
     Write-Host '  [3] No DLSS (Native/Title) (Series S | DLSS Off     | No FrameGen | 1080p)'
     Write-Host '  [4] Series X Sharp         (Series X | DLSS Quality | No FrameGen | 1080->1440p)'
@@ -52,7 +52,7 @@ if (-not $hasOverride) {
 }
 
 switch ($Mode) {
-    '1' { $SeriesX = $false; $Dlss = 'quality';     $FrameGen = $false }
+    '1' { $SeriesX = $false; $Dlss = 'balanced';    $FrameGen = $false }
     '2' { $SeriesX = $false; $Dlss = 'performance'; $FrameGen = $false }
     '3' { $SeriesX = $false; $Dlss = 'off';         $FrameGen = $false }
     '4' { $SeriesX = $true;  $Dlss = 'quality';     $FrameGen = $false; $Res = '1080to1440' }
@@ -94,15 +94,17 @@ if (Test-Path $victory) {
 $extra = @{
     VICTORY_DISPLAY_MODE         = '1920x1080'
     VICTORY_WINDOW_MAX           = '1920x1080'
-    # Clean NVIDIA graphics: no f16 banding, big dynamic heap (keep foxhound's VICTORY_THIN=1 for multi-threaded speed)
+    # Clean NVIDIA graphics: no f16 banding, big dynamic heap, short pipeline wait (no 10s stalls)
     VICTORY_F16_NEAREST          = '1'
     VICTORY_DYNAMIC_SLOTS        = '524288'
+    VICTORY_PIPELINE_WAIT_MS     = '250'
     VICTORY_COMPOSE              = '1'
-    # Keep 15.8 GB system RAM + pagefile from exhausting during shader compilation (nvwgf2umx.dll OOM):
+    # Keep 15.8 GB system RAM + pagefile from exhausting & prevent 6+ GB PCIe SHARED spill:
     VICTORY_CARD_BUFFERS_MIN_KB  = '1024'
     VICTORY_CARD_BUFFERS_MB      = '1536'
     VICTORY_LEVELS_ON_DEMAND     = '1'
-    VICTORY_TEXTURE_ROOM_PERCENT = '88'
+    VICTORY_TEXTURE_ROOM_PERCENT = '82'
+    VICTORY_TEXTURE_STAGE_MS     = '8'
     VICTORY_PANEL                = '1'
 }
 if ($FrameGen) {
