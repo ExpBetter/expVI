@@ -22,9 +22,11 @@ cd expVI
 cargo build --release --locked -p victory
 .\Get-NVIDIA-DLSS.cmd
 ```
-Then tell `expVI` where your game folder is (outside the `expVI` folder) using **either** file:
-- Create `game_dir.txt` with your game folder path on line 1 (e.g. `D:\Games\Game`), **OR**
-- Copy `victory.example.toml` to `victory.toml` and set `game_dir = 'D:\Games\Game'`
+Then tell `expVI` where your game folder is (outside the `expVI` folder):
+```powershell
+"D:\Games\Game" | Set-Content game_dir.txt
+```
+*(Replace `D:\Games\Game` with the folder containing your `game_scarlett_master.exe`. You can also copy the included `victory.example.toml` to `victory.toml` if you prefer.)*
 
 ### 3. Launch
 Double-click **`Play-RTX3060.cmd`** (or run `.\Play-RTX3060.cmd` in PowerShell) and pick a preset:
