@@ -41,7 +41,7 @@ if (-not $hasOverride) {
     Write-Host '================ expVI Launcher (RTX 3060 / NVIDIA) ================' -ForegroundColor Cyan
     Write-Host '  [1] RTX 3060 Recommended   (Series S | DLSS Balanced | No FrameGen | 1080p)'
     Write-Host '  [2] Max FPS / Performance  (Series S | DLSS Perf    | No FrameGen | 1080p)'
-    Write-Host '  [3] No DLSS (Native/Title) (Series S | DLSS Off     | No FrameGen | 1080p)'
+    Write-Host '  [3] Corgi-Fast (No DLSS)   (Series S | Title Upscaler | Bright Lighting | 1080p)'
     Write-Host '  [4] Series X Sharp         (Series X | DLSS Quality | No FrameGen | 1080->1440p)'
     Write-Host '  [5] DLSS + FrameGen 2x     (Series S | DLSS Quality | FrameGen 2x | RTX 40+)'
     Write-Host '  [6] Pre-translate Shaders & Warm Pipelines only'
@@ -94,7 +94,8 @@ if (Test-Path $victory) {
 $extra = @{
     VICTORY_DISPLAY_MODE         = '1920x1080'
     VICTORY_WINDOW_MAX           = '1920x1080'
-    # Clean NVIDIA graphics: no f16 banding, big dynamic heap, short pipeline wait (no 10s stalls)
+    # Clean NVIDIA graphics: brighter indoor lighting, no f16 banding, big dynamic heap, short pipeline wait
+    VICTORY_AMBIENT              = '1'
     VICTORY_F16_NEAREST          = '1'
     VICTORY_DYNAMIC_SLOTS        = '524288'
     VICTORY_PIPELINE_WAIT_MS     = '250'
