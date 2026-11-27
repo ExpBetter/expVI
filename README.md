@@ -6,30 +6,40 @@ Custom Windows compatibility port of **VIctory** tuned specifically for **NVIDIA
 
 ---
 
-## Quick Start
+## How to Run (Step-by-Step)
 
-1. Clone this repository:
-   ```powershell
-   git clone https://github.com/ExpBetter/expVI
-   cd expVI
-   ```
-2. Point `victory.toml` (`game_dir = 'D:\Games\Game'`) or `game_dir.txt` to your dump folder (outside the repo).
-3. Fetch NVIDIA's Streamline / DLSS runtime files once (~70 MB from NVIDIA's GitHub):
-   ```powershell
-   .\Get-NVIDIA-DLSS.cmd
-   ```
-4. Launch with **`Play-RTX3060.cmd`** (double-click or run `.\Play-RTX3060.cmd` in PowerShell):
+### 1. Prerequisites
+- **Windows 10 or 11 (x64)** with an **NVIDIA GeForce RTX GPU** (recent driver) and **16 GB+ RAM** (SSD recommended)
+- **[Rust](https://rustup.rs)**
+- **[Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)** with **"Desktop development with C++"** checked
+- Your own legal dump of the game (`game_scarlett_master.exe` + `.rpf` files)
 
-   | Mode | Profile | Upscaler | Frame Gen | Display | Notes |
-   |---|---|---|---|---|---|
-   | **1** | Series S | DLSS Quality | Off | 1080p | **Recommended for RTX 3060 + 16 GB RAM** |
-   | **2** | Series S | DLSS Performance | Off | 1080p | Max FPS |
-   | **3** | Series S | Title Upscaler (No DLSS) | Off | 1080p | No Streamline DLSS |
-   | **4** | Series X | DLSS Quality | Off | 1080p→1440p | Sharper image, heavier VRAM/RAM |
-   | **5** | Series S | DLSS Quality | 2x | 1080p | For RTX 40/50 GPUs |
-   | **6** | — | — | — | — | Pre-translate all shaders & warm NVIDIA pipelines only |
+### 2. Clone, Build & Point to Your Game
+Open **PowerShell** (normal user window, not Administrator) and run:
+```powershell
+git clone https://github.com/ExpBetter/expVI
+cd expVI
+cargo build --release --locked -p victory
+.\Get-NVIDIA-DLSS.cmd
+```
+Then tell `expVI` where your game folder is (outside the `expVI` folder) using **either** file:
+- Create `game_dir.txt` with your game folder path on line 1 (e.g. `D:\Games\Game`), **OR**
+- Copy `victory.example.toml` to `victory.toml` and set `game_dir = 'D:\Games\Game'`
 
-   *(You can also skip the menu via CLI flags, e.g. `.\Play-RTX3060.cmd -Mode 3`, `.\Play-RTX3060.cmd -AutoStart`, or `.\Play-RTX3060.cmd -SkipWarm`.)*
+### 3. Launch
+Double-click **`Play-RTX3060.cmd`** (or run `.\Play-RTX3060.cmd` in PowerShell) and pick a preset:
+
+| Mode | Profile | Upscaler | Frame Gen | Display | Best For |
+|---|---|---|---|---|---|
+| **1** | Series S | DLSS Quality | Off | 1080p | **RTX 3060 / 8–12 GB VRAM + 16 GB RAM (Recommended)** |
+| **2** | Series S | DLSS Performance | Off | 1080p | Maximum FPS |
+| **3** | Series S | Title Upscaler (No DLSS) | Off | 1080p | Running without NVIDIA DLSS |
+| **4** | Series X | DLSS Quality | Off | 1080p→1440p | Sharper visuals (needs more VRAM/RAM) |
+| **5** | Series S | DLSS Quality | 2x | 1080p | RTX 40 / 50 series cards |
+| **6** | — | — | — | — | Pre-translate shaders & warm NVIDIA pipelines only |
+
+- **First run:** Automatically translates all game shaders (`victory shaders`) and warms recorded NVIDIA pipelines (`victory warm --jobs 4`) before opening the game. This takes a few minutes once and prevents missing graphics/stutters.
+- **CLI shortcuts:** `.\Play-RTX3060.cmd -Mode 1`, `.\Play-RTX3060.cmd -Mode 3` (No DLSS), `.\Play-RTX3060.cmd -Exe "E:\MyGame\game_scarlett_master.exe"`, `.\Play-RTX3060.cmd -SkipWarm`.
 
 ---
 
