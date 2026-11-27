@@ -94,11 +94,12 @@ if (Test-Path $victory) {
 $extra = @{
     VICTORY_DISPLAY_MODE         = '1920x1080'
     VICTORY_WINDOW_MAX           = '1920x1080'
-    # Clean NVIDIA graphics: brighter indoor lighting, no f16 banding, big dynamic heap, short pipeline wait
+    # Clean NVIDIA graphics (matching victory-corgi): wait for new pipelines so lighting/geometry aren't dropped
     VICTORY_AMBIENT              = '1'
     VICTORY_F16_NEAREST          = '1'
     VICTORY_DYNAMIC_SLOTS        = '524288'
-    VICTORY_PIPELINE_WAIT_MS     = '250'
+    VICTORY_PIPELINE_WAIT_MS     = '5000'
+    VICTORY_SKIP_PIPELINES       = 'none'
     VICTORY_COMPOSE              = '1'
     # Keep 15.8 GB system RAM + pagefile from exhausting & prevent 6+ GB PCIe SHARED spill:
     VICTORY_CARD_BUFFERS_MIN_KB  = '1024'
