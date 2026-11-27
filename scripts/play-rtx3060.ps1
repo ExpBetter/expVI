@@ -94,8 +94,10 @@ if (Test-Path $victory) {
 $extra = @{
     VICTORY_DISPLAY_MODE         = '1920x1080'
     VICTORY_WINDOW_MAX           = '1920x1080'
-    # Clean NVIDIA graphics (matching victory-corgi): wait for new pipelines so lighting/geometry aren't dropped
-    VICTORY_AMBIENT              = '1'
+    # Clean NVIDIA graphics (matching victory-corgi): stronger indoor bounce light, wait for new pipelines
+    VICTORY_AMBIENT              = '1.5'
+    VICTORY_AMBIENT_ONCE         = '1'
+    VICTORY_AMBIENT_AIR          = '3'
     VICTORY_F16_NEAREST          = '1'
     VICTORY_DYNAMIC_SLOTS        = '524288'
     VICTORY_PIPELINE_WAIT_MS     = '5000'
