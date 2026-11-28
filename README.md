@@ -6,48 +6,40 @@ Custom Windows compatibility port of **VIctory** tuned specifically for **NVIDIA
 
 ---
 
-## How to Run (Step-by-Step)
+## Quick Start (Prebuilt `.exe` — Recommended)
 
-### 1. Prerequisites
-- **Windows 10 or 11 (x64)** with an **NVIDIA GeForce RTX GPU** (recent driver) and **16 GB+ RAM** (SSD recommended)
-- **[Rust](https://rustup.rs)**
-- **[Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)** with **"Desktop development with C++"** checked
-- Your own legal dump of the game (`game_scarlett_master.exe` + `.rpf` files)
+**No Rust, Visual Studio, or PowerShell needed:**
+1. **Requirements:** Windows 10/11 (x64), NVIDIA GeForce RTX GPU (recent driver), 16 GB+ RAM, and your own legal dump (`game_scarlett_master.exe` + `.rpf` files). Make sure an audio playback device is plugged in/active.
+2. Download **`expVI-Launcher.exe`** and **`victory.exe`** from the [Releases](https://github.com/ExpBetter/expVI/releases) page.
+3. Put both files directly into your **game's root folder** (the same folder as `game_scarlett_master.exe`).
+4. Double-click **`expVI-Launcher.exe`** and pick a preset (press **Enter** for **`EXP DEFAULT`**):
 
-### 2. Clone, Build & Point to Your Game
-Open **PowerShell** (normal user window, not Administrator) and run:
+| Mode | Profile | Upscaler | Frame Gen | Display | Best For |
+|---|---|---|---|---|---|
+| **1** | Series S | Title Upscaler (No DLSS) | Off | 1080p | **EXP DEFAULT (Bright Lighting, 1080p)** |
+| **2** | Series S | DLSS Performance | Off | 1080p | Maximum FPS *(needs `sl.interposer.dll`)* |
+| **3** | Series X | DLSS Quality | Off | 1080p→1440p | Sharper visuals *(needs `sl.interposer.dll`)* |
+| **4** | Series S | DLSS Quality | 2x | 1080p | RTX 40 / 50 series cards *(needs `sl.interposer.dll`)* |
+| **5** | — | — | — | — | Pre-translate shaders & warm NVIDIA pipelines only |
+
+- **First run:** Automatically translates all game shaders (`victory shaders`) and pre-warms all NVIDIA pipelines (`victory warm --jobs 8`) before opening the game. This takes a few minutes once and prevents missing graphics/stutters.
+
+---
+
+## Building from Source (Optional)
+
+If you want to build `victory.exe` yourself instead of using the Release `.exe`:
+- **Prerequisites:** [Rust](https://rustup.rs) + [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (**Desktop development with C++**).
+- Open **PowerShell** (normal user window, not Administrator) and run:
 ```powershell
 git clone https://github.com/ExpBetter/expVI
 cd expVI
 cargo build --release --locked -p victory
 .\Get-NVIDIA-DLSS.cmd
-```
-Then tell `expVI` where your game folder is (outside the `expVI` folder):
-```powershell
 "D:\Games\Game" | Set-Content game_dir.txt
+.\Play-RTX3060.cmd
 ```
-*(Replace `D:\Games\Game` with the folder containing your `game_scarlett_master.exe`. You can also copy the included `victory.example.toml` to `victory.toml` if you prefer.)*
-
-### 3. Launch
-
-**Option A — Standalone `.exe` (Easiest, no PowerShell needed):**
-1. Download **`expVI-Launcher.exe`** and **`victory.exe`** from the [Releases](https://github.com/ExpBetter/expVI/releases) page.
-2. Put both files directly into your **game's root folder** (the same folder as `game_scarlett_master.exe`).
-3. Double-click **`expVI-Launcher.exe`** and pick a preset (press **Enter** for `EXP DEFAULT`).
-
-**Option B — From source (`Play-RTX3060.cmd`):**
-Double-click **`Play-RTX3060.cmd`** (or run `.\Play-RTX3060.cmd` in PowerShell) and pick a preset:
-
-| Mode | Profile | Upscaler | Frame Gen | Display | Best For |
-|---|---|---|---|---|---|
-| **1** | Series S | Title Upscaler (No DLSS) | Off | 1080p | **EXP DEFAULT (Bright Lighting, 1080p)** |
-| **2** | Series S | DLSS Performance | Off | 1080p | Maximum FPS |
-| **3** | Series X | DLSS Quality | Off | 1080p→1440p | Sharper visuals (needs more VRAM/RAM) |
-| **4** | Series S | DLSS Quality | 2x | 1080p | RTX 40 / 50 series cards |
-| **5** | — | — | — | — | Pre-translate shaders & warm NVIDIA pipelines only |
-
-- **First run:** Automatically translates all game shaders (`victory shaders`) and pre-warms all NVIDIA pipelines (`victory warm --jobs 8`) before opening the game. This takes a few minutes once and prevents missing graphics/stutters.
-- **CLI shortcuts:** `.\Play-RTX3060.cmd -Mode 1` (EXP DEFAULT), `.\Play-RTX3060.cmd -Mode 2` (DLSS Perf), `.\Play-RTX3060.cmd -Exe "E:\MyGame\game_scarlett_master.exe"`, `.\Play-RTX3060.cmd -SkipWarm`.
+*(Replace `D:\Games\Game` with the folder containing your `game_scarlett_master.exe`. CLI shortcuts: `.\Play-RTX3060.cmd -Mode 1`, `.\Play-RTX3060.cmd -Mode 2`, `.\Play-RTX3060.cmd -SkipWarm`.)*
 
 ---
 
