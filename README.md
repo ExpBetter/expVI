@@ -70,23 +70,10 @@ cargo build --release --locked -p victory
 
 Tested on **Windows 11**, **Intel Core i5-14400F**, **15.8 GB RAM**, **NVIDIA GeForce RTX 3060 12 GB** (`game_scarlett_master.exe` v1.0.2.1):
 
-- **Boot & 3D World Entry:** Reaches the 3D world with DLSS Super Resolution active (`nvngx_dlss.dll` via Streamline v2.14.16).
-- **First-run pipeline compilation:** Compiling 500–900+ unseen pipelines live during gameplay causes severe stalls (`0.1–0.2 fps`) and dropped draws (`500+` draws dropped, causing blocky/missing lighting); pre-translating with `victory shaders` + `victory warm --jobs 4` resolves this ahead of launch.
+- **Open-World Performance:** **~115 FPS** in the open world on **EXP DEFAULT** (once shaders and pipelines are pre-warmed and background GPU apps are closed).
+- **Boot & 3D World Entry:** Reaches the 3D world cleanly (with `EXP DEFAULT` title upscaler or DLSS Super Resolution via Streamline v2.14.16). Make sure an audio playback device is plugged in/active in Windows so the title's startup audio init doesn't stall.
+- **First-run pipeline compilation:** Compiling 500–900+ unseen pipelines live during gameplay causes severe stalls (`0.1–0.2 fps`) and dropped draws (`500+` draws dropped); `expVI-Launcher.exe` pre-translates shaders (`victory shaders`) and pre-warms pipelines (`victory warm --jobs 8`) automatically on first launch.
 - **VRAM Budget Note:** Windows D3D12 subtracts VRAM used by other running apps (browsers, overlays, IDEs) from the 12 GB card's reported budget (`~9.1 GB` with background apps open vs `~11.1 GB` clean). Closing heavy GPU apps before launching gives `victory` maximum VRAM headroom.
-
----
-
-## Building from Source
-
-Install [Rust](https://rustup.rs) and [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) ("Desktop development with C++"), then:
-
-```powershell
-git clone https://github.com/ExpBetter/expVI
-cd expVI
-cargo build --release --locked -p victory
-.\Get-NVIDIA-DLSS.cmd
-.\Play-RTX3060.cmd
-```
 
 Logs are written to `%LOCALAPPDATA%\victory\logs`, and saves/caches to `%LOCALAPPDATA%\victory\data` and `%LOCALAPPDATA%\victory\cache`.
 
