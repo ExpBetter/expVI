@@ -29,19 +29,25 @@ Then tell `expVI` where your game folder is (outside the `expVI` folder):
 *(Replace `D:\Games\Game` with the folder containing your `game_scarlett_master.exe`. You can also copy the included `victory.example.toml` to `victory.toml` if you prefer.)*
 
 ### 3. Launch
+
+**Option A — Standalone `.exe` (Easiest, no PowerShell needed):**
+1. Download **`expVI-Launcher.exe`** and **`victory.exe`** from the [Releases](https://github.com/ExpBetter/expVI/releases) page.
+2. Put both files directly into your **game's root folder** (the same folder as `game_scarlett_master.exe`).
+3. Double-click **`expVI-Launcher.exe`** and pick a preset (press **Enter** for `EXP DEFAULT`).
+
+**Option B — From source (`Play-RTX3060.cmd`):**
 Double-click **`Play-RTX3060.cmd`** (or run `.\Play-RTX3060.cmd` in PowerShell) and pick a preset:
 
 | Mode | Profile | Upscaler | Frame Gen | Display | Best For |
 |---|---|---|---|---|---|
-| **1** | Series S | DLSS Quality | Off | 1080p | **RTX 3060 / 8–12 GB VRAM + 16 GB RAM (Recommended)** |
+| **1** | Series S | Title Upscaler (No DLSS) | Off | 1080p | **EXP DEFAULT (Bright Lighting, 1080p)** |
 | **2** | Series S | DLSS Performance | Off | 1080p | Maximum FPS |
-| **3** | Series S | Title Upscaler (No DLSS) | Off | 1080p | Running without NVIDIA DLSS |
-| **4** | Series X | DLSS Quality | Off | 1080p→1440p | Sharper visuals (needs more VRAM/RAM) |
-| **5** | Series S | DLSS Quality | 2x | 1080p | RTX 40 / 50 series cards |
-| **6** | — | — | — | — | Pre-translate shaders & warm NVIDIA pipelines only |
+| **3** | Series X | DLSS Quality | Off | 1080p→1440p | Sharper visuals (needs more VRAM/RAM) |
+| **4** | Series S | DLSS Quality | 2x | 1080p | RTX 40 / 50 series cards |
+| **5** | — | — | — | — | Pre-translate shaders & warm NVIDIA pipelines only |
 
-- **First run:** Automatically translates all game shaders (`victory shaders`) and warms recorded NVIDIA pipelines (`victory warm --jobs 4`) before opening the game. This takes a few minutes once and prevents missing graphics/stutters.
-- **CLI shortcuts:** `.\Play-RTX3060.cmd -Mode 1`, `.\Play-RTX3060.cmd -Mode 3` (No DLSS), `.\Play-RTX3060.cmd -Exe "E:\MyGame\game_scarlett_master.exe"`, `.\Play-RTX3060.cmd -SkipWarm`.
+- **First run:** Automatically translates all game shaders (`victory shaders`) and pre-warms all NVIDIA pipelines (`victory warm --jobs 8`) before opening the game. This takes a few minutes once and prevents missing graphics/stutters.
+- **CLI shortcuts:** `.\Play-RTX3060.cmd -Mode 1` (EXP DEFAULT), `.\Play-RTX3060.cmd -Mode 2` (DLSS Perf), `.\Play-RTX3060.cmd -Exe "E:\MyGame\game_scarlett_master.exe"`, `.\Play-RTX3060.cmd -SkipWarm`.
 
 ---
 

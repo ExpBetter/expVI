@@ -1,7 +1,7 @@
 ﻿# expVI — Custom RTX 3060 / NVIDIA Launcher (wraps play-foxhound.ps1)
 param(
     [string]$Exe = '',
-    [ValidateSet('', '1', '2', '3', '4', '5', '6')][string]$Mode = '',
+    [ValidateSet('', '1', '2', '3', '4', '5')][string]$Mode = '',
     [switch]$SeriesX,
     [ValidateSet('off', 'dlaa', 'quality', 'balanced', 'performance')][string]$Dlss = 'quality',
     [switch]$FrameGen,
@@ -39,28 +39,26 @@ $hasOverride = $Mode -or $PSBoundParameters.ContainsKey('Dlss') -or $PSBoundPara
 if (-not $hasOverride) {
     Write-Host ''
     Write-Host '================ expVI Launcher (RTX 3060 / NVIDIA) ================' -ForegroundColor Cyan
-    Write-Host '  [1] RTX 3060 Recommended   (Series S | DLSS Balanced | No FrameGen | 1080p)'
+    Write-Host '  [1] EXP DEFAULT            (Series S | Title Upscaler | Bright Lighting | 1080p)'
     Write-Host '  [2] Max FPS / Performance  (Series S | DLSS Perf    | No FrameGen | 1080p)'
-    Write-Host '  [3] Corgi-Fast (No DLSS)   (Series S | Title Upscaler | Bright Lighting | 1080p)'
-    Write-Host '  [4] Series X Sharp         (Series X | DLSS Quality | No FrameGen | 1080->1440p)'
-    Write-Host '  [5] DLSS + FrameGen 2x     (Series S | DLSS Quality | FrameGen 2x | RTX 40+)'
-    Write-Host '  [6] Pre-translate Shaders & Warm Pipelines only'
+    Write-Host '  [3] Series X Sharp         (Series X | DLSS Quality | No FrameGen | 1080->1440p)'
+    Write-Host '  [4] DLSS + FrameGen 2x     (Series S | DLSS Quality | FrameGen 2x | RTX 40+)'
+    Write-Host '  [5] Pre-translate Shaders & Warm Pipelines only'
     Write-Host '====================================================================' -ForegroundColor Cyan
-    $pick = Read-Host 'Select mode [1-6] (Enter = 1)'
+    $pick = Read-Host 'Select mode [1-5] (Enter = 1)'
     if (-not $pick) { $pick = '1' }
     $Mode = $pick.Trim()
 }
 
 switch ($Mode) {
-    '1' { $SeriesX = $false; $Dlss = 'balanced';    $FrameGen = $false }
+    '1' { $SeriesX = $false; $Dlss = 'off';         $FrameGen = $false }
     '2' { $SeriesX = $false; $Dlss = 'performance'; $FrameGen = $false }
-    '3' { $SeriesX = $false; $Dlss = 'off';         $FrameGen = $false }
-    '4' { $SeriesX = $true;  $Dlss = 'quality';     $FrameGen = $false; $Res = '1080to1440' }
-    '5' { $SeriesX = $false; $Dlss = 'quality';     $FrameGen = $true }
-    '6' { $Precompile = $true }
+    '3' { $SeriesX = $true;  $Dlss = 'quality';     $FrameGen = $false; $Res = '1080to1440' }
+    '4' { $SeriesX = $false; $Dlss = 'quality';     $FrameGen = $true }
+    '5' { $Precompile = $true }
 }
 
-if ($Mode -ne '6' -and -not (Test-Path -LiteralPath $Exe)) {
+if ($Mode -ne '5' -and -not (Test-Path -LiteralPath $Exe)) {
     Write-Host "Game not found at: $Exe" -ForegroundColor Red
     Write-Host 'Put your game folder path in game_dir.txt or victory.toml, or pass -Exe "path\to\game_scarlett_master.exe".'
     return
@@ -80,12 +78,12 @@ if (Test-Path $victory) {
         }
     }
     if (-not $SkipWarm) {
-        $warmArgs = if ($Mode -eq '6') { @('warm', '--jobs', '8') } else { @('warm', '--used', '--jobs', '8') }
+        $warmArgs = if ($Mode -eq '5') { @('warm', '--jobs', '8') } else { @('warm', '--used', '--jobs', '8') }
         Write-Host "[2/2] Pre-compiling NVIDIA pipelines ($($warmArgs -join ' '))..."
         Push-Location $repo
         try { & $victory @warmArgs } finally { Pop-Location }
     }
-    if ($Mode -eq '6') {
+    if ($Mode -eq '5') {
         Write-Host 'Shader translation and pipeline warm-up complete.' -ForegroundColor Green
         return
     }
